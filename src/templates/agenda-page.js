@@ -73,7 +73,7 @@ AgendaPage.propTypes = {
 export default AgendaPage
 
 export const aboutPageQuery = graphql`
-  query AboutPage($id: String!) {
+  query AgendaPage($id: String!) {
     markdownRemark(id: { eq: $id }) {
       html
       frontmatter {
