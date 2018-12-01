@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import Content, { HTMLContent } from '../components/Content'
+import PreviewCompatibleImage from '../components/PreviewCompatibleImage'
 
 export const AgendaPageTemplate = ({
   title,
+  subtitle,
   image,
   content,
   contentComponent
@@ -13,39 +15,32 @@ export const AgendaPageTemplate = ({
   const PageContent = contentComponent || Content
 
   return (
-    <section className="section section--gradient">
-      <div className="container">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <div className="section">
-              <div
-                className="full-width-image-container margin-top-0"
-                style={{
-                  backgroundImage: `url(${
-                    !!image.childImageSharp
-                      ? image.childImageSharp.fluid.src
-                      : image
-                  })`,
-                }}
-              >
-                <h2
-                  className="has-text-weight-bold is-size-1"
-                  style={{
-                    boxShadow: '0.5rem 0 0 #f40, -0.5rem 0 0 #f40',
-                    backgroundColor: '#f40',
-                    color: 'white',
-                    padding: '1rem',
-                  }}
-                >
-                  {title}
-                </h2>
-              </div>
+    <div>
+      <section className="hero is-info" style={{backgroundColor: '#277700'}}>
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              <h1 className="has-text-weight-bold is-size-2">{title}</h1>
+            </h1>
+            <h2 className="subtitle">
+              {subtitle}
+            </h2>
+          </div>
+        </div>
+      </section>
+      <section className="section section--gradient">
+        <div className="container">
+          <div className="columns">
+            <div className="column is-half">
+              <PreviewCompatibleImage imageInfo={image} />
+            </div>
+            <div className="column">
               <PageContent className="content" content={content} />
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }
 
@@ -67,6 +62,7 @@ const AgendaPage = ({ data }) => {
         content={post.html}
         contentComponent={HTMLContent}
         title={frontmatter.title}
+        subtitle={frontmatter.subtitle}
       />
     </Layout>
   )
@@ -88,6 +84,7 @@ export const agendaPageQuery = graphql`
       html
       frontmatter {
         title
+        subtitle
         image {
           childImageSharp {
             fluid(maxWidth: 2048, quality: 100) {

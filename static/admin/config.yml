@@ -28,6 +28,8 @@ collections:
         fields:
           - {label: "Template Key", name: "templateKey", widget: "hidden", default: "about-page"}
           - {label: "Title", name: "title", widget: "string"}
+          - {label: "Subtitle", name: "subtitle", widget: "string"}
+          - {label: Image, name: image, widget: image}
           - {label: "Body", name: "body", widget: "markdown"}
       - file: "src/pages/agenda/index.md"
         label: "Agenda"
@@ -35,5 +37,16 @@ collections:
         fields:
           - {label: "Template Key", name: "templateKey", widget: "hidden", default: "about-page"}
           - {label: "Title", name: "title", widget: "string"}
+          - {label: "Subtitle", name: "subtitle", widget: "string"}
           - {label: Image, name: image, widget: image}
+          - {label: "Body", name: "body", widget: "markdown"}
+      - file: "src/pages/contact/index.md"
+        label: "Contact info"
+        name: "contact"
+        fields:
+          - {label: "Template Key", name: "templateKey", widget: "hidden", default: "about-page"}
+          - {label: "Address", name: "address", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Facebook", name: "facebook", widget: "string"}
           - {label: "Body", name: "body", widget: "markdown"}

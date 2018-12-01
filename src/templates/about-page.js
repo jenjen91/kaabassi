@@ -3,30 +3,47 @@ import PropTypes from 'prop-types'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import Content, { HTMLContent } from '../components/Content'
+import PreviewCompatibleImage from '../components/PreviewCompatibleImage'
 
-export const AboutPageTemplate = ({ title, content, contentComponent }) => {
+export const AboutPageTemplate = ({ title, subtitle, image, content, contentComponent }) => {
   const PageContent = contentComponent || Content
 
   return (
-    <section className="section section--gradient">
-      <div className="container">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <div className="section">
-              <h2 className="title is-size-3 has-text-weight-bold is-bold-light">
-                {title}
-              </h2>
-              <PageContent className="content" content={content} />
-            </div>
-          </div>
+    <div>
+    <section className="hero is-primary" style={{backgroundColor: '#277700'}}>
+      <div className="hero-body">
+        <div className="container">
+          <h1 className="title">
+          {title}
+          </h1>
+          <h2 className="subtitle">
+            {subtitle}
+          </h2>
         </div>
       </div>
     </section>
+      <section className="section section--gradient">
+        <div className="container">
+          <div className="columns">
+            <div className="column">
+              <div className="section">
+                <PageContent className="content" content={content} />
+              </div>
+            </div>
+            <div className="column is-half">
+              <PreviewCompatibleImage imageInfo={image} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   )
 }
 
 AboutPageTemplate.propTypes = {
   title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   content: PropTypes.string,
   contentComponent: PropTypes.func,
 }
@@ -39,6 +56,8 @@ const AboutPage = ({ data }) => {
       <AboutPageTemplate
         contentComponent={HTMLContent}
         title={post.frontmatter.title}
+        subtitle={post.frontmatter.subtitle}
+        image={post.frontmatter.image}
         content={post.html}
       />
     </Layout>
@@ -57,6 +76,14 @@ export const aboutPageQuery = graphql`
       html
       frontmatter {
         title
+        subtitle
+        image {
+          childImageSharp {
+            fluid(maxWidth: 2048, quality: 100) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
       }
     }
   }

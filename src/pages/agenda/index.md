@@ -1,7 +1,8 @@
 ---
 templateKey: agenda-page
 title: Agenda
-image: /img/agenda2.jpg
+subtitle: Onz agenda
+image: /img/agenda3.JPG
 ---
 ### Kernactiviteiten:
 

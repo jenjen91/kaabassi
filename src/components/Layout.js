@@ -26,6 +26,13 @@ const TemplateWrapper = ({ children }) => (
         </Helmet>
         <Navbar />
         <div>{children}</div>
+        <footer className="footer">
+          <div className="content has-text-centered">
+            <p>
+              <strong>Stichting Kaabassi</strong>
+            </p>
+          </div>
+      </footer>
       </div>
     )}
   />

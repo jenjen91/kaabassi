@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link, graphql } from 'gatsby'
+import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
-import PreviewCompatibleImage from '../components/PreviewCompatibleImage'
+import {ProjectItem} from '../components/ProjectItem'
 
 export default class ProjectenPage extends React.Component {
   render() {
@@ -11,39 +11,21 @@ export default class ProjectenPage extends React.Component {
 
     return (
       <Layout>
-        <section className="section">
-          <div className="container">
-            <div className="content">
-              <h1 className="has-text-weight-bold is-size-2">Projecten</h1>
+        <section className="hero is-info" style={{backgroundColor: '#277700'}}>
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">Projecten</h1>
+              <h2 className="subtitle">
+                Al onze projecten in Den Haag
+              </h2>
             </div>
+          </div>
+        </section>
+        <section className="section">
+          <div className="container project-container">
             {posts
-              .map(({ node: post }) => (
-                <div class="card" key={post.id}>
-                  <div class="card-image">
-                     <PreviewCompatibleImage imageInfo={post.frontmatter.thumbnail} />
-                  </div>
-                  <div class="card-content">
-                    <div class="media">
-                      <div class="media-content">
-                        <Link className="title is-4" to={post.fields.slug}>
-                          {post.frontmatter.title}
-                        </Link>
-                      </div>
-                    </div>
-                    <div class="content">
-                      <p>{post.excerpt}</p>
-                      <br />
-                      <time datetime="2016-1-1">{post.frontmatter.date}</time>
-                    </div>
-                    <footer class="card-footer">
-                      <Link className="button is-small" to={post.fields.slug}>
-                        Keep Reading →
-                      </Link>
-                      <a href="www.facebook.com" class="card-footer-item">Share</a>
-                    </footer>
-                  </div>
-                </div>
-              ))}
+              .map(({ node: post }) => (<ProjectItem post={post} key={post.id} />)
+            )}
           </div>
         </section>
       </Layout>
@@ -76,7 +58,7 @@ export const pageQuery = graphql`
             title
             templateKey
             date(formatString: "MMMM DD, YYYY")
-            image {
+            thumbnail {
               childImageSharp {
                 fluid(maxWidth: 2048, quality: 100) {
                   ...GatsbyImageSharpFluid
