@@ -5,7 +5,7 @@ title: Agenda
 image: /img/agenda2.jpg
 ---
 ### Kernactiviteiten:
-Empowerment van de seksen (meisjes en vrouwen) 
+Empowerment van de seksen (meisjes en vrouwen)
 Empowerment van (jonge) mannen
 Begeleiding, advies, bemiddeling en coaching
 Samenwerking met reguliere partners en instellingen
