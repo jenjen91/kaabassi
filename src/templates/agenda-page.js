@@ -4,7 +4,12 @@ import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import Content, { HTMLContent } from '../components/Content'
 
-export const AgendaPageTemplate = ({ title, image, content, contentComponent }) => {
+export const AgendaPageTemplate = ({
+  title,
+  image,
+  content,
+  contentComponent
+}) => {
   const PageContent = contentComponent || Content
 
   return (
@@ -52,22 +57,26 @@ AgendaPageTemplate.propTypes = {
 }
 
 const AgendaPage = ({ data }) => {
-  const { markdownRemark: post } = data
+  const { frontmatter } = data.markdownRemark
 
   return (
     <Layout>
       <AgendaPageTemplate
-        image={post.frontmatter.image}
+        image={frontmatter.image}
         contentComponent={HTMLContent}
-        title={post.frontmatter.title}
-        content={post.html}
+        title={frontmatter.title}
+        content={frontmatter.html}
       />
     </Layout>
   )
 }
 
 AgendaPage.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    markdownRemark: PropTypes.shape({
+      frontmatter: PropTypes.object,
+    }),
+  }),
 }
 
 export default AgendaPage
