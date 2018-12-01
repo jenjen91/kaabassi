@@ -13,7 +13,10 @@ export default class IndexPage extends React.Component {
         <section className="section">
           <div className="container">
             <div className="content">
-              <h1 className="has-text-weight-bold is-size-2">Projeecten</h1>
+              <h1 className="has-text-weight-bold is-size-2">Over ons</h1>
+              <p>Kaabassi is een non- profit organisatie die zich
+              bezighoudt met het ondersteunen van mensen die zich op de één of andere manier buitengeslotenvoelen.</p>
+              <h1 className="has-text-weight-bold is-size-2">Projecten</h1>
             </div>
             {posts
               .map(({ node: post }) => (

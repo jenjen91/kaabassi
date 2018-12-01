@@ -58,14 +58,15 @@ AgendaPageTemplate.propTypes = {
 
 const AgendaPage = ({ data }) => {
   const { frontmatter } = data.markdownRemark
+  const { markdownRemark: post } = data
 
   return (
     <Layout>
       <AgendaPageTemplate
         image={frontmatter.image}
+        content={post.html}
         contentComponent={HTMLContent}
         title={frontmatter.title}
-        content={frontmatter.html}
       />
     </Layout>
   )

@@ -20,11 +20,11 @@ const Navbar = () => (
         <Link className="navbar-item" to="/agenda">
           Agenda
         </Link>
-        <Link className="navbar-item" to="/projeecten">
-          Projeecten
+        <Link className="navbar-item" to="/projecten">
+          Projecten
         </Link>
         <Link className="navbar-item" to="/products">
-          Projeecten
+          products
         </Link>
         <Link className="navbar-item" to="/contact">
           Contact
