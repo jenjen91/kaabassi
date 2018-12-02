@@ -22,7 +22,7 @@ export default class ProjectenPage extends React.Component {
           </div>
         </section>
         <section className="section">
-          <div className="container project-container">
+          <div className="columns project-container">
             {posts
               .map(({ node: post }) => (<ProjectItem post={post} key={post.id} />)
             )}

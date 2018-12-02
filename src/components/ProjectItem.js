@@ -6,28 +6,30 @@ import PreviewCompatibleImage from './PreviewCompatibleImage'
 export const ProjectItem = ({ post }) => {
 
   return (
-    <div className="card project-item" key={post.id}>
-      <div className="card-image">
-         <PreviewCompatibleImage imageInfo={post.frontmatter.thumbnail} />
-      </div>
-      <div className="card-content">
-        <div className="media">
-          <div className="media-content">
-            <Link className="title is-4" to={post.fields.slug}>
-              {post.frontmatter.title}
-            </Link>
+    <div className="column is-one-third">
+      <div className="card" key={post.id}>
+        <div className="card-image">
+           <PreviewCompatibleImage imageInfo={post.frontmatter.thumbnail} />
+        </div>
+        <div className="card-content">
+          <div className="media">
+            <div className="media-content">
+              <Link className="title is-4" to={post.fields.slug}>
+                {post.frontmatter.title}
+              </Link>
+            </div>
+          </div>
+          <div className="content">
+            <p>{post.excerpt}</p>
           </div>
         </div>
-        <div className="content">
-          <p>{post.excerpt}</p>
-        </div>
+        <footer className="card-footer">
+          <Link className="card-footer-item" to={post.fields.slug}>
+            Lees meer →
+          </Link>
+        </footer>
       </div>
-      <footer className="card-footer">
-        <Link className="card-footer-item" to={post.fields.slug}>
-          Lees meer →
-        </Link>
-      </footer>
-    </div>
+  </div>
   )
 }
 

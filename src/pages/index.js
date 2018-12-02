@@ -24,7 +24,7 @@ export default class IndexPage extends React.Component {
               <center>Al onze projecten in Den Haag</center>
             </div>
             <section className="section">
-              <div className="container project-container">
+              <div className="columns project-container">
                 {posts
                   .map(({ node: post }) => (<ProjectItem post={post} key={post.id} />)
                 )}
