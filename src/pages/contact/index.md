@@ -2,7 +2,7 @@
 templateKey: contact
 address: 'Weimarstraat 69, 2562 GR Den Haag'
 phone: 070-346 9543
-email: kaabassi@outlook.com
+email: info@kaabassi.org
 facebook: 'https://www.facebook.com/kaabassi/'
 ---
 ### Contact info:
