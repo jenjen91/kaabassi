@@ -2,7 +2,7 @@
   "name": "kaabassi",
   "description": "Made with Next.js, and Decap CMS project",
   "version": "2.0.0",
-  "author": "Jenny",
+  "author": "",
   "main": "index.js",
   "scripts": {
     "dev": "next",
@@ -11,10 +11,10 @@
     "export": "npm run build && next export"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "bulma": "^1.0.4",
+    "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
     "next": "^15.3.3",
     "prop-types": "^15.8.1",
