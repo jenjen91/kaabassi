@@ -1,64 +1,117 @@
 // components/ContactForm.js
-'use client'; // <--- THIS IS CRUCIAL: Declares this a Client Component
+'use client';
 
-import React from 'react';
-import { useRouter } from 'next/navigation'; // Import useRouter for navigation
+import React, { useState } from 'react'; // Import useState for local component state
+import { useRouter } from 'next/navigation';
 
-// Assuming your ContactForm had some state and submission logic
 const ContactForm = () => {
-  const router = useRouter(); // Initialize the router hook
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState(null); // 'success' | 'error' | null
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Your form submission logic here (e.g., sending data to an API)
+    setIsSubmitting(true); // Set loading state
+    setSubmissionStatus(null); // Reset status
 
-    // After successful submission, you would typically redirect
-    // Replace Gatsby's navigate('/success') with router.push('/success')
+    const formData = new FormData(event.target);
+
     try {
-      // Example: Simulate an API call
-      console.log('Form submitted!');
-      // await fetch('/api/submit-contact', { method: 'POST', body: new FormData(event.target) });
+      const response = await fetch(event.target.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formData).toString(),
+      });
 
-      // Redirect to a success page or display a success message
-      router.push('/contact/success'); // Or wherever your success page is located
-      console.log('Redirecting to /contact/success');
-
+      if (response.ok) {
+        console.log('Form submitted successfully!');
+        setSubmissionStatus('success');
+        event.target.reset(); // Reset form fields
+        // Optionally, wait a bit before redirecting or show a modal
+        setTimeout(() => {
+          router.push('/contact/success');
+        }, 3000); // Redirect after 3 seconds
+      } else {
+        console.error('Form submission failed:', response.statusText);
+        setSubmissionStatus('error');
+      }
     } catch (error) {
-      console.error('Form submission failed:', error);
-      // Handle error, e.g., display an error message to the user
+      console.error('Form submission failed (network error):', error);
+      setSubmissionStatus('error');
+    } finally {
+      setIsSubmitting(false); // Clear loading state
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* Your existing form fields */}
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      action="/contact/success"
+      data-netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
+    >
+      {/* Hidden honeypot field for spam prevention using a CSS class */}
+      {/* Add this CSS class to your global CSS:
+          .visually-hidden {
+              clip: rect(0 0 0 0);
+              clip-path: inset(50%);
+              height: 1px;
+              overflow: hidden;
+              position: absolute;
+              white-space: nowrap;
+              width: 1px;
+          }
+      */}
+      <p className="visually-hidden">
+        <label>
+          Don’t fill this out if you’re human: <input name="bot-field" />
+        </label>
+      </p>
+
+      {/* Submission Feedback */}
+      {submissionStatus === 'success' && (
+        <div className="notification is-success">
+          Thank you for your message! We'll get back to you soon. Redirecting...
+        </div>
+      )}
+      {submissionStatus === 'error' && (
+        <div className="notification is-danger">
+          There was an error submitting your form. Please try again later.
+        </div>
+      )}
+
+      {/* Form Fields */}
       <div className="field">
-        <label className="label" htmlFor={"name"}>
+        <label className="label" htmlFor="name">
           Your Name
         </label>
         <div className="control">
-          <input className="input" type={"text"} name={"name"} id={"name"} required={true} />
+          <input className="input" type="text" name="name" id="name" required={true} disabled={isSubmitting} />
         </div>
       </div>
       <div className="field">
-        <label className="label" htmlFor={"email"}>
+        <label className="label" htmlFor="email">
           Email
         </label>
         <div className="control">
-          <input className="input" type={"email"} name={"email"} id={"email"} required={true} />
+          <input className="input" type="email" name="email" id="email" required={true} disabled={isSubmitting} />
         </div>
       </div>
       <div className="field">
-        <label className="label" htmlFor={"message"}>
+        <label className="label" htmlFor="message">
           Message
         </label>
         <div className="control">
-          <textarea className="textarea" name={"message"} id={"message"} required={true}></textarea>
+          <textarea className="textarea" name="message" id="message" required={true} disabled={isSubmitting}></textarea>
         </div>
       </div>
       <div className="field">
-        <button className="button is-link" type="submit">
-          Send
+        <button className="button is-link" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Sending...' : 'Send'}
         </button>
       </div>
     </form>
