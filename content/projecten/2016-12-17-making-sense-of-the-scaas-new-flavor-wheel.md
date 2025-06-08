@@ -1,7 +1,7 @@
 ---
 thumbnail: /img/bel.jpg
 templateKey: blog-post
-title: BEL-strijds
+title: BEL-strijd
 date: 2016-12-17T15:04:10.000Z
 description: Beweeg, Eet en Leef is een project waarbij kinderen van de
   basisschool en hun ouders geïnspireerd worden op een bewuste manier met
