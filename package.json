@@ -16,6 +16,7 @@
     "@netlify/plugin-nextjs": "^5.11.2",
     "bulma": "^1.0.4",
     "gray-matter": "^4.0.3",
+    "jose": "^6.0.11",
     "lodash": "^4.17.21",
     "next": "^15.3.3",
     "prop-types": "^15.8.1",
@@ -29,6 +30,8 @@
   "devDependencies": {
     "@babel/core": "^7.27.4",
     "@babel/preset-react": "^7.27.1",
-    "frontmatter-markdown-loader": "^3.7.0"
+    "@netlify/functions": "^4.1.4",
+    "frontmatter-markdown-loader": "^3.7.0",
+    "typescript": "^5.8.3"
   }
 }

@@ -1,0 +1,14 @@
+// netlify/functions/tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2022", // Use a recent target like ES2022 for modern Node.js
+    "module": "CommonJS", // Netlify Functions often prefer CommonJS modules
+    "outDir": "./dist",   // ✨ CRITICAL: Output compiled JavaScript to a 'dist' folder
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ESNext"] // Ensure you have ESNext in lib for modern types and syntax
+  },
+  "include": ["./**/*.ts"] // Include all TypeScript files in this directory and subdirectories
+}
