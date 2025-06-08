@@ -1,5 +1,9 @@
 backend:
-  name: git-gateway
+  name: git-gateway # Keep this for now, but you might move to test if using a custom backend
+  # If you were to use a custom auth server (more complex), you'd use something like:
+  # name: test
+  # auth_url: https://YOUR_AUTH0_DOMAIN/authorize
+  # auth_proxy_url: /.netlify/functions/auth-callback # If you build a Netlify Function proxy
   branch: master
 
 media_folder: public/img # This usually stays the same if your images are still in public/img
