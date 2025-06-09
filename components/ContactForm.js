@@ -47,7 +47,7 @@ const ContactForm = () => {
 
   return (
     <form
-      name="contact-v3"
+      name="contact"
       method="POST"
       data-netlify="true"
       action="/contact/success"
