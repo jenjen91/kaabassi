@@ -1,3 +1,5 @@
+"use client"; // <--- Add this line at the very top
+
 // components/ContactForm.js (or wherever your form component lives)
 import React, { useState } from 'react';
 
