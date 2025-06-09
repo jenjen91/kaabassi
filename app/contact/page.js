@@ -3,7 +3,6 @@
 // Do NOT add 'use client'; at the top of this file.
 
 import React from 'react';
-// import PropTypes from 'prop-types'; // ✨ REMOVED: PropTypes are not needed in App Router
 
 // --- Markdown to HTML Conversion Libraries ---
 import { remark } from 'remark';
@@ -19,7 +18,7 @@ import { notFound } from 'next/navigation'; // ✨ NEW: For 404 handling
 
 // --- Components (Assuming path aliases are set up) ---
 import HTMLContent from '@/components/Content'; // ✨ IMPROVED: Use absolute import if configured
-//import ContactForm from '@/components/ContactForm'; // ✨ IMPROVED: Use absolute import if configured
+//import ContactForm from '@/components/ContactForm';
 
 // --- Site Metadata for SEO ---
 import { siteMetadata } from '@/lib/site'; // ✨ IMPROVED: Use absolute import if configured
@@ -81,7 +80,7 @@ export const ContactTemplate = ({ address, phone, email, facebook, content, cont
             <p><b>Facebook:</b> <a href={facebook} target="_blank" rel="noopener noreferrer">{facebook}</a></p>
           </div>
           <div className="section">
-            // <ContactForm />
+            {/* <ContactForm /> */}
           </div>
         </div>
       </section>
