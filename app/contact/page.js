@@ -18,7 +18,7 @@ import { notFound } from 'next/navigation'; // ✨ NEW: For 404 handling
 
 // --- Components (Assuming path aliases are set up) ---
 import HTMLContent from '@/components/Content'; // ✨ IMPROVED: Use absolute import if configured
-import ContactForm from '@/components/ContactForm';
+//import ContactForm from '@/components/ContactForm';
 
 // --- Site Metadata for SEO ---
 import { siteMetadata } from '@/lib/site'; // ✨ IMPROVED: Use absolute import if configured
@@ -80,7 +80,7 @@ export const ContactTemplate = ({ address, phone, email, facebook, content, cont
             <p><b>Facebook:</b> <a href={facebook} target="_blank" rel="noopener noreferrer">{facebook}</a></p>
           </div>
           <div className="section">
-            <ContactForm />
+            {/* <ContactForm /> */}
           </div>
         </div>
       </section>
