@@ -1,12 +1,11 @@
 // components/ContactForm.js
 'use client';
 
-import React, { useState } from 'react';
-// useRouter is no longer needed if we're not redirecting
-// import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'; // Import useState for local component state
+import { useRouter } from 'next/navigation';
 
 const ContactForm = () => {
-  // const router = useRouter(); // No longer needed
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState(null); // 'success' | 'error' | null
 
@@ -27,16 +26,19 @@ const ContactForm = () => {
       });
 
       if (response.ok) {
-        console.log('Formulier succesvol ingediend!');
+        console.log('Form submitted successfully!');
         setSubmissionStatus('success');
         event.target.reset(); // Reset form fields
-        // No redirect here, just display the success message
+        // Optionally, wait a bit before redirecting or show a modal
+        setTimeout(() => {
+          router.push('/contact/success');
+        }, 3000); // Redirect after 3 seconds
       } else {
-        console.error('Formulierinzending mislukt:', response.statusText);
+        console.error('Form submission failed:', response.statusText);
         setSubmissionStatus('error');
       }
     } catch (error) {
-      console.error('Formulierinzending mislukt (netwerkfout):', error);
+      console.error('Form submission failed (network error):', error);
       setSubmissionStatus('error');
     } finally {
       setIsSubmitting(false); // Clear loading state
@@ -48,44 +50,44 @@ const ContactForm = () => {
       name="contact"
       method="POST"
       data-netlify="true"
-      action="/contact/success" // Netlify will still use this for its own redirect after its processing
+      action="/contact/success"
       data-netlify-honeypot="bot-field"
       onSubmit={handleSubmit}
     >
       {/* Hidden honeypot field for spam prevention using a CSS class */}
       {/* Add this CSS class to your global CSS:
-            .visually-hidden {
-                clip: rect(0 0 0 0);
-                clip-path: inset(50%);
-                height: 1px;
-                overflow: hidden;
-                position: absolute;
-                white-space: nowrap;
-                width: 1px;
-            }
+          .visually-hidden {
+              clip: rect(0 0 0 0);
+              clip-path: inset(50%);
+              height: 1px;
+              overflow: hidden;
+              position: absolute;
+              white-space: nowrap;
+              width: 1px;
+          }
       */}
       <p className="visually-hidden">
         <label>
-          Niet invullen als u een mens bent: <input name="bot-field" />
+          Don’t fill this out if you’re human: <input name="bot-field" />
         </label>
       </p>
 
       {/* Submission Feedback */}
       {submissionStatus === 'success' && (
         <div className="notification is-success">
-          Bedankt voor uw bericht! We nemen zo spoedig mogelijk contact met u op.
+          Thank you for your message! We'll get back to you soon. Redirecting...
         </div>
       )}
       {submissionStatus === 'error' && (
         <div className="notification is-danger">
-          Er is een fout opgetreden bij het indienen van uw formulier. Probeer het later opnieuw.
+          There was an error submitting your form. Please try again later.
         </div>
       )}
 
       {/* Form Fields */}
       <div className="field">
         <label className="label" htmlFor="name">
-          Uw Naam
+          Your Name
         </label>
         <div className="control">
           <input className="input" type="text" name="name" id="name" required={true} disabled={isSubmitting} />
@@ -93,7 +95,7 @@ const ContactForm = () => {
       </div>
       <div className="field">
         <label className="label" htmlFor="email">
-          E-mailadres
+          Email
         </label>
         <div className="control">
           <input className="input" type="email" name="email" id="email" required={true} disabled={isSubmitting} />
@@ -101,7 +103,7 @@ const ContactForm = () => {
       </div>
       <div className="field">
         <label className="label" htmlFor="message">
-          Bericht
+          Message
         </label>
         <div className="control">
           <textarea className="textarea" name="message" id="message" required={true} disabled={isSubmitting}></textarea>
@@ -109,7 +111,7 @@ const ContactForm = () => {
       </div>
       <div className="field">
         <button className="button is-link" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Verzenden...' : 'Verzenden'}
+          {isSubmitting ? 'Sending...' : 'Send'}
         </button>
       </div>
     </form>
