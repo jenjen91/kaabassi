@@ -81,7 +81,8 @@ export const ContactTemplate = ({ address, phone, email, facebook, content, cont
             <p><b>Facebook:</b> <a href={facebook} target="_blank" rel="noopener noreferrer">{facebook}</a></p>
           </div>
           <div className="section">
-            <ContactForm />
+          {/* <ContactForm /> */}{/* ✨ TEMPORARILY COMMENT THIS OUT */}
+
           </div>
         </div>
       </section>
