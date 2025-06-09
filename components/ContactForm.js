@@ -1,93 +1,52 @@
-"use client"; // <--- Add this line at the very top
+// components/ContactForm.js
+'use client';
 
-// components/ContactForm.js (or wherever your form component lives)
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // Import useState for local component state
+import { useRouter } from 'next/navigation';
 
-export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [status, setStatus] = useState('');
+const ContactForm = () => {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState(null); // 'success' | 'error' | null
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true); // Set loading state
+    setSubmissionStatus(null); // Reset status
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('Submitting...');
+    const formData = new FormData(event.target);
 
     try {
-      const response = await fetch('/api/submit-form', { // <-- Target your API route
+      const response = await fetch(event.target.action, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify(formData),
+        body: new URLSearchParams(formData).toString(),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        setStatus('Form submitted successfully!');
-        setFormData({ name: '', email: '', message: '' }); // Clear form
+        console.log('Form submitted successfully!');
+        setSubmissionStatus('success');
+        event.target.reset(); // Reset form fields
+        // Optionally, wait a bit before redirecting or show a modal
+        setTimeout(() => {
+          router.push('/contact/success');
+        }, 3000); // Redirect after 3 seconds
       } else {
-        setStatus(`Error: ${data.message || 'Something went wrong.'}`);
+        console.error('Form submission failed:', response.statusText);
+        setSubmissionStatus('error');
       }
     } catch (error) {
-      console.error('Form submission failed:', error);
-      setStatus('An unexpected error occurred.');
+      console.error('Form submission failed (network error):', error);
+      setSubmissionStatus('error');
+    } finally {
+      setIsSubmitting(false); // Clear loading state
     }
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
-      name="contact-v2"
       method="POST"
-      data-netlify="true"
-      data-netlify-honeypot="bot-field"
-      >
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="message">Message:</label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-        ></textarea>
-      </div>
-      <button type="submit">Submit</button>
-      {status && <p>{status}</p>}
-    </form>
-  );
-}
+      onSubmit={handleSubmit}
+    >
