@@ -13,6 +13,7 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
+    "@netlify/plugin-nextjs": "^5.11.2",
     "bulma": "^1.0.4",
     "gray-matter": "^4.0.3",
     "jose": "^6.0.11",
@@ -27,7 +28,6 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.11.2",
     "@babel/core": "^7.27.4",
     "@babel/preset-react": "^7.27.1",
     "@netlify/functions": "^4.1.4",
