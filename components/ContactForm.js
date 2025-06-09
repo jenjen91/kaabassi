@@ -1,121 +1,91 @@
-// components/ContactForm.js
-'use client';
+// components/ContactForm.js (or wherever your form component lives)
+import React, { useState } from 'react';
 
-import React, { useState } from 'react'; // Import useState for local component state
-import { useRouter } from 'next/navigation';
+export default function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
+  const [status, setStatus] = useState('');
 
-const ContactForm = () => {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState(null); // 'success' | 'error' | null
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsSubmitting(true); // Set loading state
-    setSubmissionStatus(null); // Reset status
-
-    const formData = new FormData(event.target);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('Submitting...');
 
     try {
-      const response = await fetch(event.target.action, {
+      const response = await fetch('/api/submit-form', { // <-- Target your API route
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json',
         },
-        body: new URLSearchParams(formData).toString(),
+        body: JSON.stringify(formData),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        console.log('Form submitted successfully!');
-        setSubmissionStatus('success');
-        event.target.reset(); // Reset form fields
-        // Optionally, wait a bit before redirecting or show a modal
-        setTimeout(() => {
-          router.push('/contact/success');
-        }, 3000); // Redirect after 3 seconds
+        setStatus('Form submitted successfully!');
+        setFormData({ name: '', email: '', message: '' }); // Clear form
       } else {
-        console.error('Form submission failed:', response.statusText);
-        setSubmissionStatus('error');
+        setStatus(`Error: ${data.message || 'Something went wrong.'}`);
       }
     } catch (error) {
-      console.error('Form submission failed (network error):', error);
-      setSubmissionStatus('error');
-    } finally {
-      setIsSubmitting(false); // Clear loading state
+      console.error('Form submission failed:', error);
+      setStatus('An unexpected error occurred.');
     }
   };
 
   return (
     <form
+      onSubmit={handleSubmit}
       name="contact-v2"
       method="POST"
       data-netlify="true"
-      action="/contact/success"
       data-netlify-honeypot="bot-field"
-      onSubmit={handleSubmit}
-    >
-      {/* Hidden honeypot field for spam prevention using a CSS class */}
-      {/* Add this CSS class to your global CSS:
-          .visually-hidden {
-              clip: rect(0 0 0 0);
-              clip-path: inset(50%);
-              height: 1px;
-              overflow: hidden;
-              position: absolute;
-              white-space: nowrap;
-              width: 1px;
-          }
-      */}
-      <p className="visually-hidden">
-        <label>
-          Don’t fill this out if you’re human: <input name="bot-field" />
-        </label>
-      </p>
-
-      {/* Submission Feedback */}
-      {submissionStatus === 'success' && (
-        <div className="notification is-success">
-          Thank you for your message! We'll get back to you soon. Redirecting...
-        </div>
-      )}
-      {submissionStatus === 'error' && (
-        <div className="notification is-danger">
-          There was an error submitting your form. Please try again later.
-        </div>
-      )}
-
-      {/* Form Fields */}
-      <div className="field">
-        <label className="label" htmlFor="name">
-          Your Name
-        </label>
-        <div className="control">
-          <input className="input" type="text" name="name" id="name" required={true} disabled={isSubmitting} />
-        </div>
+      >
+      <div>
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+        />
       </div>
-      <div className="field">
-        <label className="label" htmlFor="email">
-          Email
-        </label>
-        <div className="control">
-          <input className="input" type="email" name="email" id="email" required={true} disabled={isSubmitting} />
-        </div>
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        />
       </div>
-      <div className="field">
-        <label className="label" htmlFor="message">
-          Message
-        </label>
-        <div className="control">
-          <textarea className="textarea" name="message" id="message" required={true} disabled={isSubmitting}></textarea>
-        </div>
+      <div>
+        <label htmlFor="message">Message:</label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+        ></textarea>
       </div>
-      <div className="field">
-        <button className="button is-link" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Sending...' : 'Send'}
-        </button>
-      </div>
+      <button type="submit">Submit</button>
+      {status && <p>{status}</p>}
     </form>
   );
-};
-
-export default ContactForm;
+}
